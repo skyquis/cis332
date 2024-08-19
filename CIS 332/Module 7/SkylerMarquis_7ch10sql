@@ -1,0 +1,70 @@
+--==================================
+--Skyler Marquis
+--CIS332: Database and SQL
+--Unit 6, Chapter 9 Assignment B
+--==================================
+
+--Chapter 10 - Create an SQL script with the solutions to all 10 of the Hands-On 
+--problems at the end of Chapter 10.  Be sure to use single-row functions for 
+--the solutions for Chapter 10.  Also, be sure to assign alias names to display 
+--in the output so that the single-row function doesn't appear as the heading.  
+--The alias names in the displayed results is required and worth points on this 
+--assignment.
+
+--Note: the JLDB_Build_8.sql  and JLDB_Build_10.sql  scripts (attached above) 
+--are used before executing the statements in this chapter.
+
+--Preparation for running the script
+START "C:\Users\skyle\OneDrive\Documents\DMACC\CIS 332\Module 5\JLDB_Build_8.sql"
+START "C:\Users\skyle\OneDrive\Documents\DMACC\CIS 332\Module 7\JLDB_Build_10.sql"
+
+---#1 in hands on assignments
+SELECT INITCAP(firstname) as "First Name", INITCAP(lastname) as "Last Name"
+ FROM customers;
+ 
+--#2
+SELECT 
+ (customer#) as "Customer Number", 
+ NVL2(referred, 'REFERRED', 'NOT REFERRED') "Referral Status"
+ FROM customers;
+ 
+--#3
+SELECT title as "Title",
+ TO_CHAR(quantity*(paideach-cost), '$999.99') "Total Profit"
+ FROM books JOIN orderitems USING (isbn)
+ WHERE order# = 1002;
+ 
+--#4
+SELECT title as "Title",
+ ROUND((retail-cost)/cost*100, 0) || '%' as "Percentage markup"
+ FROM books;
+ 
+--#5
+SELECT TO_CHAR(CURRENT_DATE, 'DAY HH:MM:SS') as "Date and Time"
+ FROM dual;
+ 
+--#6
+SELECT title as "Title",
+ LPAD(cost, 12, '*') as "Cost"
+ FROM books;
+ 
+--#7
+SELECT DISTINCT LENGTH(isbn) as "ISBN"
+ FROM books;
+ 
+--#8
+SELECT title as "Title",
+ pubdate as "Publication date",
+ CURRENT_DATE as "Today's date",
+ TRUNC(MONTHS_BETWEEN(SYSDATE,pubdate),0) as "Age"
+ FROM books;
+ 
+--#9
+SELECT NEXT_DAY(CURRENT_DATE, 'WEDNESDAY') as "Next Wednesday"
+ FROM dual;
+ 
+--#10
+SELECT customer# as "Customer Number",
+ SUBSTR(zip, 3, 2) as "Partial Zip",
+ INSTR(customer#, 3) as "First occurence of 3 (if found)"
+ FROM customers
